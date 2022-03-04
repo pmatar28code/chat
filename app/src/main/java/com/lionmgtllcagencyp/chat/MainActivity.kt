@@ -1,5 +1,7 @@
 package com.lionmgtllcagencyp.chat
 
+import android.content.Context
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -15,6 +17,9 @@ import com.lionmgtllcagencyp.chat.databinding.FragmentMainBinding
 
 
 class MainActivity : AppCompatActivity() {
+    companion object{
+        fun newIntent(context: Context) = Intent(context,MainActivity::class.java)
+    }
     var sectionPagerAdapter: SectionPagerAdapter ?= null
     lateinit var binding: ActivityMainBinding
     override fun onCreate(savedInstanceState: Bundle?) {

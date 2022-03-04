@@ -12,4 +12,19 @@
     <item name="windowActionBar">false</item>
     <item name="windowNoTitle">true</item>
     </style>
+
+    <style name="standardButton">
+        <item name="android:background">@drawable/standard_button_rounded</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">@dimen/standard_text_size</item>
+        <item name="android:foreground">?attr/selectableItemBackground</item>
+    </style>
+
+    <style name="text">
+        <item name="android:textSize">18sp</item>
+    </style>
+
+    <style name="TextLink" parent="text">
+        <item name="android:color">@color/black</item>
+    </style>
 </resources>
