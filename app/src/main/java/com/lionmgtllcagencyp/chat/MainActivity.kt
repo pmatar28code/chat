@@ -55,7 +55,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun onProfile(){
-
+        startActivity(ProfileActivity.newIntent(this))
     }
 
     private fun onLogOut(){
