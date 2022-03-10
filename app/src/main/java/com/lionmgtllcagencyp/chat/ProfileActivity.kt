@@ -14,6 +14,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.net.toUri
+import androidx.core.view.isVisible
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
@@ -26,7 +27,7 @@ class ProfileActivity : AppCompatActivity() {
         fun newIntent(context: Context) = Intent(context,ProfileActivity::class.java)
     }
     private val firebaseDatabase = FirebaseFirestore.getInstance()
-
+    private val firebaseAuth = FirebaseAuth.getInstance()
     private val userId = FirebaseAuth.getInstance().currentUser?.uid
     private val firebaseStorage = FirebaseStorage.getInstance().reference
     private var imageUrl:String ?= null
@@ -170,6 +171,7 @@ class ProfileActivity : AppCompatActivity() {
     }
 
     fun onDelete(view:View){
+
         binding.apply {
             progressLayout.visibility = View.VISIBLE
             AlertDialog.Builder(this@ProfileActivity)
@@ -179,8 +181,16 @@ class ProfileActivity : AppCompatActivity() {
                     Toast.makeText(this@ProfileActivity,"Profile Deleted",Toast.LENGTH_SHORT).show()
                     if (userId != null) {
                         firebaseDatabase.collection(DATA_USERS).document(userId).delete()
+                        firebaseStorage.child(DATA_IMAGES).child(userId).delete()
+                        firebaseAuth.currentUser?.delete()
+                            ?.addOnSuccessListener {
+                                finish()
+                            }
+                            ?.addOnFailureListener {
+                                finish()
+                            }
                     }
-                    finish()
+                    //finish()
                 }
                 .setNegativeButton("No"){dialog,which->
                     binding.progressLayout.visibility = View.GONE

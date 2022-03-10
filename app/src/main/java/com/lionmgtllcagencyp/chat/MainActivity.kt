@@ -96,4 +96,12 @@ class MainActivity : AppCompatActivity() {
         }
 
     }
+
+    override fun onResume() {
+        super.onResume()
+        if(firebaseAuth.currentUser == null){
+            startActivity(LoginActivity.newIntent(this))
+            finish()
+        }
+    }
 }
