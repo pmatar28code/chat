@@ -1,7 +1,9 @@
 package com.lionmgtllcagencyp.chat
 
+import android.Manifest
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,6 +12,9 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.LinearLayout
 import android.widget.TableLayout
+import androidx.appcompat.app.AlertDialog
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.core.view.get
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
@@ -23,6 +28,7 @@ import com.lionmgtllcagencyp.chat.databinding.FragmentMainBinding
 import com.lionmgtllcagencyp.chat.fragments.ChatsFragment
 import com.lionmgtllcagencyp.chat.fragments.StatusFragment
 import com.lionmgtllcagencyp.chat.fragments.StatusUpdateFragment
+import com.lionmgtllcagencyp.chat.utilities.READ_CONTACTS_REQUEST_CODE
 
 
 class MainActivity : AppCompatActivity() {
@@ -77,6 +83,47 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun onNewChat(view:View){
+        if(ContextCompat.checkSelfPermission(this,Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED){
+            if(ActivityCompat.shouldShowRequestPermissionRationale(this,Manifest.permission.READ_CONTACTS)){
+                AlertDialog.Builder(this)
+                    .setTitle("Contacts Permission")
+                    .setMessage("This app requires access to your contacts to initiate a conversation")
+                    .setPositiveButton("Ask Me") {_,_ ->
+                        requestContactsPermission()
+                    }
+                    .setNegativeButton("Cancel"){_,_ ->
+
+                    }
+                    .create()
+                    .show()
+            }
+        }else{
+            startNewActivity()
+        }
+    }
+
+    private fun requestContactsPermission(){
+        ActivityCompat.requestPermissions(this,
+            arrayOf(Manifest.permission.READ_CONTACTS),
+            READ_CONTACTS_REQUEST_CODE
+        )
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        when(requestCode){
+           READ_CONTACTS_REQUEST_CODE -> {
+               if(grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                   startNewActivity()
+               }
+           }
+       }
+    }
+    private fun startNewActivity(){
 
     }
 

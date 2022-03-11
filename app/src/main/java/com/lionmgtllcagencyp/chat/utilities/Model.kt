@@ -10,3 +10,8 @@ data class User(
     val statusTime:String ?=""
 
 )
+
+data class Contacts(
+    val name:String = "",
+    val phone:String = ""
+)
