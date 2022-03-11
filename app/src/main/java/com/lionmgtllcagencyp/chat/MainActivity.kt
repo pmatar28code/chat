@@ -1,6 +1,8 @@
 package com.lionmgtllcagencyp.chat
 
 import android.Manifest
+import android.app.Activity
+import android.app.Instrumentation
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -12,6 +14,7 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.LinearLayout
 import android.widget.TableLayout
+import androidx.activity.result.ActivityResult
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -29,10 +32,13 @@ import com.lionmgtllcagencyp.chat.fragments.ChatsFragment
 import com.lionmgtllcagencyp.chat.fragments.StatusFragment
 import com.lionmgtllcagencyp.chat.fragments.StatusUpdateFragment
 import com.lionmgtllcagencyp.chat.utilities.READ_CONTACTS_REQUEST_CODE
+import com.lionmgtllcagencyp.chat.utilities.REQUEST_NEW_CHAT
 
 
 class MainActivity : AppCompatActivity() {
     companion object{
+        var paramName = "param_name"
+        var paramPhone = "parame_phone"
         fun newIntent(context: Context) = Intent(context,MainActivity::class.java)
     }
 
@@ -77,12 +83,15 @@ class MainActivity : AppCompatActivity() {
 
 
         binding.fab.setOnClickListener { view ->
-            Snackbar.make(view,"this is a simple snackBar",Snackbar.LENGTH_SHORT)
-                .setAction("Action",null) .show()
+            //Snackbar.make(view,"this is a simple snackBar",Snackbar.LENGTH_SHORT)
+              // .setAction("Action",null) .show()
+            onNewChat()
+
+
         }
     }
 
-    private fun onNewChat(view:View){
+    private fun onNewChat(){
         if(ContextCompat.checkSelfPermission(this,Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED){
             if(ActivityCompat.shouldShowRequestPermissionRationale(this,Manifest.permission.READ_CONTACTS)){
                 AlertDialog.Builder(this)
@@ -94,8 +103,10 @@ class MainActivity : AppCompatActivity() {
                     .setNegativeButton("Cancel"){_,_ ->
 
                     }
-                    .create()
+
                     .show()
+            }else{
+                requestContactsPermission()
             }
         }else{
             startNewActivity()
@@ -123,8 +134,17 @@ class MainActivity : AppCompatActivity() {
            }
        }
     }
-    private fun startNewActivity(){
+    fun startNewActivity(){
+        startActivityForResult(ContactsActivity.newIntent(this), REQUEST_NEW_CHAT)
+    }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if(resultCode == Activity.RESULT_OK){
+            when(requestCode){
+                REQUEST_NEW_CHAT -> {}
+            }
+        }
     }
 
     private fun resizeTabs(){
