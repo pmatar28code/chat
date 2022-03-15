@@ -2,32 +2,25 @@ package com.lionmgtllcagencyp.chat
 
 import android.Manifest
 import android.app.Activity
-import android.app.Instrumentation
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.LinearLayout
-import android.widget.TableLayout
-import androidx.activity.result.ActivityResult
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.core.view.get
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
-import com.google.android.gms.common.GooglePlayServicesNotAvailableException
-import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayout
 import com.google.firebase.auth.FirebaseAuth
 import com.lionmgtllcagencyp.chat.databinding.ActivityMainBinding
-import com.lionmgtllcagencyp.chat.databinding.FragmentMainBinding
 import com.lionmgtllcagencyp.chat.fragments.ChatsFragment
 import com.lionmgtllcagencyp.chat.fragments.StatusFragment
 import com.lionmgtllcagencyp.chat.fragments.StatusUpdateFragment
@@ -82,7 +75,7 @@ class MainActivity : AppCompatActivity() {
         })
 
 
-        binding.fab.setOnClickListener { view ->
+        binding.fab.setOnClickListener {
             //Snackbar.make(view,"this is a simple snackBar",Snackbar.LENGTH_SHORT)
               // .setAction("Action",null) .show()
             onNewChat()
@@ -142,7 +135,9 @@ class MainActivity : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
         if(resultCode == Activity.RESULT_OK){
             when(requestCode){
-                REQUEST_NEW_CHAT -> {}
+                REQUEST_NEW_CHAT -> {
+
+                }
             }
         }
     }
