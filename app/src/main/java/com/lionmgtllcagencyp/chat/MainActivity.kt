@@ -5,12 +5,15 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.LinearLayout
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -20,15 +23,19 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import com.google.android.material.tabs.TabLayout
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 import com.lionmgtllcagencyp.chat.databinding.ActivityMainBinding
 import com.lionmgtllcagencyp.chat.fragments.ChatsFragment
 import com.lionmgtllcagencyp.chat.fragments.StatusFragment
 import com.lionmgtllcagencyp.chat.fragments.StatusUpdateFragment
+import com.lionmgtllcagencyp.chat.listeners.FailureCallback
+import com.lionmgtllcagencyp.chat.utilities.DATA_USERS
+import com.lionmgtllcagencyp.chat.utilities.DATA_USER_PHONE
 import com.lionmgtllcagencyp.chat.utilities.READ_CONTACTS_REQUEST_CODE
 import com.lionmgtllcagencyp.chat.utilities.REQUEST_NEW_CHAT
 
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(),FailureCallback {
     companion object{
         var paramName = "param_name"
         var paramPhone = "parame_phone"
@@ -41,12 +48,15 @@ class MainActivity : AppCompatActivity() {
     private val chatsFragment = ChatsFragment()
     private val statusFragment = StatusFragment()
     private val StatusUpdateFragment = StatusUpdateFragment()
+    private val firebaseDatabase = FirebaseFirestore.getInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val inflater = LayoutInflater.from(this)
         binding = ActivityMainBinding.inflate(inflater)
         setContentView(binding.root)
+
+        chatsFragment.setFailureCallbackListener(this)
 
         setSupportActionBar(binding.toolbar)
         sectionPagerAdapter = SectionPagerAdapter(supportFragmentManager)
@@ -136,10 +146,48 @@ class MainActivity : AppCompatActivity() {
         if(resultCode == Activity.RESULT_OK){
             when(requestCode){
                 REQUEST_NEW_CHAT -> {
+                    val name = data?.getStringExtra(paramName)?:""
+                    val phone = data?.getStringExtra(paramPhone)?:""
+                    checkNewChatUser(name,phone)
+
 
                 }
             }
         }
+    }
+    private fun checkNewChatUser(name:String,phone:String){
+        if(name.isNotEmpty() && phone.isNotEmpty()){
+            firebaseDatabase.collection(DATA_USERS)
+                .whereEqualTo(DATA_USER_PHONE,phone)
+                .get().addOnSuccessListener {
+                    if(it.documents.size > 0 ){
+                        chatsFragment.newChat(it.documents[0].id)
+                    }else{
+                        AlertDialog.Builder(this)
+                            .setTitle("User not found")
+                            .setMessage("$name does not have an account. Send them an sms to install this app?")
+                            .setPositiveButton("Ok"){_,_ ->
+                                val intent = Intent(Intent.ACTION_VIEW)
+                                intent.data = Uri.parse("sms:$phone")
+                                intent.putExtra("sms_body",
+                                    "Hi, im using this new whatsapp clone app, you should install it" +
+                                        "so you can chat there."
+                                )
+                                startActivity(intent)
+
+                            }
+                            .setNegativeButton("Cancel"){_,_ ->
+
+                            }
+                            .show()
+                    }
+                }
+                .addOnFailureListener {
+                    Toast.makeText(this,"An Error has occured, please try again later",Toast.LENGTH_SHORT).show()
+                    it.printStackTrace()
+                }
+        }
+
     }
 
     private fun resizeTabs(){
@@ -196,5 +244,10 @@ class MainActivity : AppCompatActivity() {
             startActivity(LoginActivity.newIntent(this))
             finish()
         }
+    }
+
+    override fun onUserError() {
+        Toast.makeText(this,"User not found",Toast.LENGTH_SHORT).show()
+        startActivity(LoginActivity.newIntent(this))
     }
 }
