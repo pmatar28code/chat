@@ -14,4 +14,5 @@ val REQUEST_CODE_PHOTO = 1008
 val READ_CONTACTS_REQUEST_CODE = 123
 val DATA_USER_CHATS = "userChats"
 val DATA_CHATS = "Chats"
+val DATA_CHAT_PARTICIPANTS = "listOfChatParticipants"
 
