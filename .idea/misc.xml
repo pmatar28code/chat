@@ -3,6 +3,8 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="app/src/main/res/drawable/chat_current_message_bg_rounded.xml" value="0.249" />
+        <entry key="app/src/main/res/drawable/chat_other_message_bg_rounded.xml" value="0.249" />
         <entry key="app/src/main/res/drawable/navigation_shadow.xml" value="0.249" />
         <entry key="app/src/main/res/drawable/send_button_rounded.xml" value="0.249" />
         <entry key="app/src/main/res/drawable/standard_button_rounded.xml" value="0.27760416666666665" />
@@ -18,6 +20,8 @@
         <entry key="app/src/main/res/layout/fragment_status_update.xml" value="0.45" />
         <entry key="app/src/main/res/layout/item_chat.xml" value="0.1" />
         <entry key="app/src/main/res/layout/item_contact.xml" value="0.45" />
+        <entry key="app/src/main/res/layout/item_current_user_message.xml" value="0.5" />
+        <entry key="app/src/main/res/layout/item_other_user_message.xml" value="0.24947916666666667" />
         <entry key="app/src/main/res/menu/menu_main.xml" value="0.26145833333333335" />
       </map>
     </option>

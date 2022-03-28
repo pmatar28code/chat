@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.lionmgtllcagencyp.chat.ConversationActivity
 import com.lionmgtllcagencyp.chat.R
 import com.lionmgtllcagencyp.chat.adapters.ChatsAdapter
 import com.lionmgtllcagencyp.chat.databinding.FragmentChatsBinding
@@ -131,7 +132,7 @@ class ChatsFragment : Fragment(R.layout.fragment_chats),ChatClickListener {
         chatImageUrl: String,
         chatName: String
     ) {
-        Toast.makeText(requireContext(),"$name Clicked",Toast.LENGTH_SHORT).show()
+        startActivity(ConversationActivity.newIntent(requireContext()))
     }
 
 

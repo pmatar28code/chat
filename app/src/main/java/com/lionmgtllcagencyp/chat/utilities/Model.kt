@@ -19,3 +19,9 @@ data class Contacts(
 data class Chat(
     var listOfChatParticipants :ArrayList<String?>
 )
+
+data class Message(
+    val sentBy:String? = "",
+    val message:String? = "",
+    val messageTime:Long? = 0
+)
