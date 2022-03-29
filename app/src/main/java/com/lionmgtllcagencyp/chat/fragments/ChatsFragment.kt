@@ -127,12 +127,12 @@ class ChatsFragment : Fragment(R.layout.fragment_chats),ChatClickListener {
     }
 
     override fun onChatClicked(
-        name: String,
+        chatId: String,
         otherUserId: String,
         chatImageUrl: String,
         chatName: String
     ) {
-        startActivity(ConversationActivity.newIntent(requireContext()))
+        startActivity(ConversationActivity.newIntent(requireContext(),chatId,chatImageUrl,otherUserId,chatName))
     }
 
 

@@ -15,4 +15,6 @@ val READ_CONTACTS_REQUEST_CODE = 123
 val DATA_USER_CHATS = "userChats"
 val DATA_CHATS = "Chats"
 val DATA_CHAT_PARTICIPANTS = "listOfChatParticipants"
+val DATA_CHAT_MESSAGES ="messages"
+val DATA_CHAT_MESSAGE_TIME = "messageTime"
 

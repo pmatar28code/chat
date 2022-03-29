@@ -1,13 +1,11 @@
 package com.lionmgtllcagencyp.chat.adapters
 
-import android.renderscript.ScriptGroup
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.lionmgtllcagencyp.chat.R
-import com.lionmgtllcagencyp.chat.databinding.ActivityConversationBinding
 import com.lionmgtllcagencyp.chat.databinding.ItemCurrentUserMessageBinding
 import com.lionmgtllcagencyp.chat.databinding.ItemOtherUserMessageBinding
 import com.lionmgtllcagencyp.chat.utilities.Message
